@@ -11,6 +11,7 @@ import (
 	"mindvault/backend/internal/handlers"
 	"mindvault/backend/internal/repositories"
 
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/jackc/pgx/v5/pgxpool"
 )
@@ -40,6 +41,11 @@ func main() {
 
 	// --- Opsætning af Web Server (Gin) ---
 	router := gin.Default()
+
+  // --- Konfigurer CORS Middleware ---
+	config := cors.DefaultConfig()
+	config.AllowOrigins = []string{"http://localhost:5173"} // Tillad requests fra din Vue-app
+	router.Use(cors.New(config))
 
 	// --- API Ruter ---
 	v1 := router.Group("/api/v1")
