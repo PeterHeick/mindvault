@@ -1,93 +1,93 @@
 # MindVault 🧠
 
-**En personlig og kollaborativ vidensmotor, bygget til at skabe klarhed og flow.**
+**A personal and collaborative knowledge engine, built for clarity and flow.**
 
-MindVault er et open source-værktøj designet til at bekæmpe kognitiv overbelastning. Det fungerer som en central hub, der intelligent kan indsamle, indeksere og genfinde information fra alle dine digitale kilder. Systemet er bygget på en moderne, skalerbar arkitektur, der understøtter både den enkelte bruger og teamsamarbejde.
-
----
-## ✨ Kernefunktioner
-
-* **Centraliseret Vidensbase:** Saml alle dine noter, dokumenter og ideer ét sikkert sted.
-* **Intelligent Søgning:** En lynhurtig og fejltolerant søgeoplevelse drevet af Typesense, så du altid kan finde, hvad du leder efter.
-* **Automatiseret Indsamling:** Brug n8n til at bygge workflows, der automatisk henter information fra e-mails, hjemmesider, andre apps og meget mere.
-* **API-Først Design:** En robust REST API-kerne, der gør det muligt at bygge specialiserede klienter (web, mobil, desktop).
-* **Selv-hostet & Open Source:** Fuld kontrol over dine egne data. Kør det på din egen server og tilpas det efter dine behov.
-* **Klar til Samarbejde:** Arkitekturen er forberedt til at understøtte delte vidensrum for teams og projekter.
+MindVault is an open-source tool designed to combat cognitive overload. It acts as a central hub that can intelligently collect, index, and retrieve information from all your digital sources. The system is built on a modern, scalable architecture that supports both individual users and team collaboration.
 
 ---
-## 🚀 Teknologi-stak
+## ✨ Core Features
 
-MindVault er bygget med en moderne og effektiv teknologi-stak:
+* **Centralized Knowledge Base:** Gather all your notes, documents, and ideas in one secure place.
+* **Intelligent Search:** A lightning-fast and typo-tolerant search experience powered by Typesense, so you can always find what you're looking for.
+* **Automated Collection:** Use n8n to build workflows that automatically fetch information from emails, websites, other apps, and more.
+* **API-First Design:** A robust REST API core that enables the creation of specialized clients (web, mobile, desktop).
+* **Self-hosted & Open Source:** Full control over your own data. Run it on your own server and customize it to your needs.
+* **Ready for Collaboration:** The architecture is designed to support shared knowledge spaces for teams and projects.
 
-* **Backend:** [Go (Golang)](https://go.dev/) med [Gin](https://gin-gonic.com/) frameworket.
-* **Database:** [PostgreSQL](https://www.postgresql.org/) for robust og relationel datalagring.
-* **Søgemaskine:** [Typesense](https://typesense.org/) for en lynhurtig søgeoplevelse.
-* **Automations-motor:** [n8n](https://n8n.io/) til at bygge integrations-workflows.
-* **Frontend (Planlagt):** [Vue 3](https://vuejs.org/) for en moderne og reaktiv brugerflade.
-* **Containerisering:** Alt er orkestreret med [Docker](https://www.docker.com/) og Docker Compose.
+---
+## 🚀 Technology Stack
+
+MindVault is built with a modern and efficient technology stack:
+
+* **Backend:** [Go (Golang)](https://go.dev/) with the [Gin](https://gin-gonic.com/) framework.
+* **Database:** [PostgreSQL](https://www.postgresql.org/) for robust and relational data storage.
+* **Search Engine:** [Typesense](https://typesense.org/) for a lightning-fast search experience.
+* **Automation Engine:** [n8n](https://n8n.io/) for building integration workflows.
+* **Frontend (Planned):** [Vue 3](https://vuejs.org/) for a modern and reactive user interface.
+* **Containerization:** Everything is orchestrated with [Docker](https://www.docker.com/) and Docker Compose.
 
 
 
 ---
-## 🏁 Kom i gang
+## 🏁 Getting Started
 
-Følg disse trin for at få MindVault op at køre lokalt.
+Follow these steps to get MindVault up and running locally.
 
-### Forudsætninger
+### Prerequisites
 
-* [Docker](https://www.docker.com/) og Docker Compose
-* [Go](https://go.dev/doc/install) (til lokal udvikling og dependency management)
+* [Docker](https://www.docker.com/) and Docker Compose
+* [Go](https://go.dev/doc/install) (for local development and dependency management)
 * [Git](https://git-scm.com/)
-* `migrate` værktøjet (se installations-guide nedenfor)
+* The `migrate` tool (see installation guide below)
 
 ### Installation
 
-1.  **Klon projektet:**
+1.  **Clone the project:**
     ```sh
-    git clone [https://github.com/dit-brugernavn/mindvault.git](https://github.com/dit-brugernavn/mindvault.git)
+    git clone [https://github.com/your-username/mindvault.git](https://github.com/your-username/mindvault.git)
     cd mindvault
     ```
 
-2.  **Konfigurer dit miljø:**
-    Omdøb `.env.example` til `.env` (eller opret en ny `.env`-fil) og udfyld de nødvendige variabler, især `POSTGRES_PASSWORD` og `TYPESENSE_API_KEY`.
+2.  **Configure your environment:**
+    Rename `.env.example` to `.env` (or create a new `.env` file) and fill in the necessary variables, especially `POSTGRES_PASSWORD` and `TYPESENSE_API_KEY`.
 
-3.  **Start alle services:**
-    Denne kommando bygger backend-imaget og starter alle containere.
+3.  **Start all services:**
+    This command builds the backend image and starts all containers.
     ```sh
     docker compose up --build -d
     ```
 
-4.  **Kør database-migrationer:**
-    Dette opretter de nødvendige tabeller i din database.
+4.  **Run database migrations:**
+    This creates the necessary tables in your database.
     ```sh
-    # Installer migrate-værktøjet, hvis du ikke har det
+    # Install the migrate tool if you don't have it
     go install -tags 'postgres' [github.com/golang-migrate/migrate/v4/cmd/migrate@latest](https://github.com/golang-migrate/migrate/v4/cmd/migrate@latest)
 
-    # Naviger til backend-mappen
+    # Navigate to the backend directory
     cd backend
 
-    # Kør migrationen (husk at erstatte med dit kodeord)
-    migrate -path db/migrations -database 'postgres://mindvault:DIT_KODEORD@localhost:5432/mindvault_db?sslmode=disable' up
+    # Run the migration (remember to replace with your password)
+    migrate -path db/migrations -database 'postgres://mindvault:YOUR_PASSWORD@localhost:5432/mindvault_db?sslmode=disable' up
     ```
 
-Dit MindVault API er nu tilgængeligt på `http://localhost:8080`.
+Your MindVault API is now available at `http://localhost:8080`.
 
 ---
-## Основні кінцеві точки API
+## API Endpoints
 
-* `POST /api/v1/notes`: Opretter en ny note.
-* `GET /api/v1/notes`: Henter alle noter.
-* `GET /api/v1/notes/:id`: Henter en specifik note.
-* `PUT /api/v1/notes/:id`: Opdaterer en note.
-* `DELETE /api/v1/notes/:id`: Sletter en note.
-* `GET /ping`: En simpel health-check, der returnerer `{"message":"pong"}`.
+* `POST /api/v1/notes`: Creates a new note.
+* `GET /api/v1/notes`: Retrieves all notes.
+* `GET /api/v1/notes/:id`: Retrieves a specific note.
+* `PUT /api/v1/notes/:id`: Updates a note.
+* `DELETE /api/v1/notes/:id`: Deletes a note.
+* `GET /ping`: A simple health check that returns `{"message":"pong"}`.
 
 ---
-## 🛣️ Projektstatus & Køreplan
+## 🛣️ Project Status & Roadmap
 
-Projektet er i aktiv udvikling.
+The project is under active development.
 
-* [x] **Fase 1: Kernens Fundament** - Opsætning af Docker, Go-backend med komplet CRUD API til noter, databaseforbindelse og migrations-setup.
-* [ ] **Fase 2: Brugerflade** - Udvikling af en Vue 3 frontend til at interagere med API'et.
-* [ ] **Fase 3: Intelligente Indsamlere** - Integration med n8n for at bygge de første automatiserede data-workflows.
-* [ ] **Fase 4: Søge-integration** - Aktivering af Typesense for at levere en overlegen søgeoplevelse.
+* [x] **Phase 1: Core Foundation** - Setup of Docker, Go backend with a complete CRUD API for notes, database connection, and migration setup.
+* [ ] **Phase 2: User Interface** - Development of a Vue 3 frontend to interact with the API.
+* [ ] **Phase 3: Intelligent Collectors** - Integration with n8n to build the first automated data workflows.
+* [ ] **Phase 4: Search Integration** - Activation of Typesense to provide a superior search experience.
