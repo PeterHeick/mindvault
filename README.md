@@ -1,4 +1,3 @@
-# mindvault
 # MindVault 🧠
 
 **En personlig og kollaborativ vidensmotor, bygget til at skabe klarhed og flow.**
