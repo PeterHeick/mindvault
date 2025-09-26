@@ -1,0 +1,28 @@
+# .gitignore
+
+# Ignorer .env-filen, der indeholder alle vores hemmeligheder!
+.env
+
+# Go-specifikke filer
+# Binære filer og eksekverbare
+*.exe
+*.out
+/backend/server
+
+# Cache og moduler
+/vendor/
+/go/bin/
+
+# OS-specifikke filer
+.DS_Store
+Thumbs.db
+
+# Docker data-volumes (selvom de er uden for projektet, er det god stil)
+postgres_data/
+typesense_data/
+n8n_data/
+
+old-docs/
+*.odt
+*.pdf
+*.txt

@@ -1,0 +1,87 @@
+# docker-compose.yml (Komplet og korrekt version)
+# version: '3.8'
+
+services:
+  # 1. Go Backend Service
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: mindvault_backend
+    restart: on-failure
+    ports:
+      # Læser nu den eksterne port fra .env-filen
+      - "${EXTERNAL_BACKEND_PORT}:${APP_PORT}" 
+    env_file:
+      - .env
+    depends_on:
+      db:
+        condition: service_healthy
+      typesense:
+        condition: service_started
+    networks:
+      - mindvault_net
+
+  # 2. PostgreSQL Database
+  db:
+    image: postgres:16-alpine
+    container_name: mindvault_db
+    restart: always
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      # Læser nu den eksterne port fra .env-filen
+      - "${EXTERNAL_DB_PORT}:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - mindvault_net
+
+  # 3. Typesense Search Engine
+  typesense:
+    image: typesense/typesense:0.25.2
+    container_name: mindvault_typesense
+    restart: always
+    environment:
+      TYPESENSE_API_KEY: ${TYPESENSE_API_KEY}
+      TYPESENSE_DATA_DIR: /data
+    ports:
+      # Læser nu den eksterne port fra .env-filen
+      - "${EXTERNAL_TYPESENSE_PORT}:8108"
+    volumes:
+      - typesense_data:/data
+    networks:
+      - mindvault_net
+
+  # 4. n8n Automation Engine
+  n8n:
+    image: docker.n8n.io/n8nio/n8n
+    container_name: mindvault_n8n
+    restart: always
+    environment:
+      - GENERIC_TIMEZONE=${GENERIC_TIMEZONE}
+    ports:
+      # Læser nu den eksterne port fra .env-filen
+      - "${EXTERNAL_N8N_PORT}:5678"
+    volumes:
+      - n8n_data:/home/node/.n8n
+    networks:
+      - mindvault_net
+
+# Definerer de navngivne volumes for at persistere data
+volumes:
+  postgres_data:
+  typesense_data:
+  n8n_data:
+
+# Definerer et custom netværk, så services kan snakke sammen via deres navne
+networks:
+  mindvault_net:
+    driver: bridge
